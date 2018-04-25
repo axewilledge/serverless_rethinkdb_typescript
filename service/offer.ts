@@ -3,8 +3,6 @@ import * as _async from "async";
 
 import connection from "./db.connection";
 var db = new connection(); //CREATE DATABASE CONNECTION OBJECT
-db.setupDb(); //INITIAL SETUP OF THE DATABASE AND TABLE
-
 
 //INTERFACE TO MODEL THE SCHEMA OF THE OFFER
 interface offerModel {
