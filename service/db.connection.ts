@@ -4,7 +4,7 @@ import * as _async from "async";
 export default class rethinkDB {
 
 //~~~~~~~~~~~~~~~~~SET UP THE DATABASE WITH TABLES~~~~~~~~~~~~~~~~~~~//
-  setupDb() {
+  setupDb(callback) {
     var self = this;
     _async.waterfall([
       function(callback) {
@@ -38,6 +38,7 @@ export default class rethinkDB {
       }
     ],function(err,data) {
       console.log(data);
+      callback(err === null ? false : true,data);
     });
   }
 

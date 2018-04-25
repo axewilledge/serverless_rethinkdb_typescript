@@ -54,6 +54,13 @@ package:
 
 functions:
 
+  initialLaunch:
+    handler: handler.initialLaunch
+    events:
+      - http:
+          path: initialLaunch/run
+          method: get
+
   getOffers:
     handler: handler.getOffers
     events:

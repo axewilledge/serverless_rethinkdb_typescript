@@ -2,17 +2,27 @@ import { Handler, Context, Callback } from 'aws-lambda';
 import offer from "./service/offer"
 import connection from "./service/db.connection";
 
+var db = new connection();
 var service = new offer();
-
-var db = new connection(); //CREATE DATABASE CONNECTION OBJECT
-db.setupDb(); //INITIAL SETUP OF THE DATABASE AND TABLE
-
 
 //INTERFACE FOR RESPONSE OBJECT TO PASS INTO CALLBACK FUNCTION
 interface response {
   statusCode: number;
   body: string;
 }
+
+//HANDLER FUNCTION TO INITIALIZE THE DATABASE AND TABLE
+const initialLaunch : Handler = (event:any, context: Context, callback: Callback) =>{
+
+  db.setupDb(function(err,offerResponse) {
+    const res: response = {
+      statusCode: 200,
+      body: JSON.stringify(offerResponse)
+    };
+    callback(undefined,res);
+  });
+
+};
 
 //HANDLER FUNCTION TO GET DATA FROM DATABASE 
 const getOffers : Handler = (event:any, context: Context, callback: Callback) =>{
@@ -70,4 +80,4 @@ const deleteOffer : Handler = (event:any, context: Context, callback: Callback) 
 
 };
 
-export { getOffers, createOffer, updateOffer, deleteOffer }
+export { initialLaunch, getOffers, createOffer, updateOffer, deleteOffer }
