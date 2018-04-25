@@ -9,6 +9,9 @@ Run - <b> npm install </b>
 Using administrator command promt run - <b> serverless offline start </b>
 To run the server
 
+First run the initial database setup get method to create a database and table
+<b> http://localhost:3000/initialLaunch/run </b>
+
 You can use the services in - <b> http://localhost:3000/offers </b> (GET,POST,PUT,DELETE)
 
 Accepeted json format is - 
