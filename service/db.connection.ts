@@ -33,6 +33,29 @@ export default class rethinkDB {
           } else {
             console.log("Created new table");
           }
+
+          //COMPOUND INDEX TO USE IN ALL TEXT SEARCH
+          let r: any = _rethinkDB.db('sampleRethink');
+
+          r.table("offer").indexCreate(
+            "textSearch", [r.row("duration"), r.row("offer")]
+            ).run(connection, function(err,result) {
+              connection.close();
+              if(err) {
+                console.log("textSearch index already created");
+              } else {
+                console.log("Created new textSearch index");
+              }
+              r.table("offer").indexWait("textSearch").run(connection, function(err,result) {
+                connection.close();
+                if(err) {
+                  console.log("textSearch index not ready");
+                } else {
+                  console.log("textSearch index ready");
+                }
+              });
+            });
+
           callback(null,"Database is setup successfully");
         });
       }
