@@ -135,7 +135,7 @@ export default class offers {
     }
 
   //~~~~~~~~~~~~~~~~~FUNCTION TO SEARCH OFFERS~~~~~~~~~~~~~~~~~~~//
-      searchOffers(callback) {
+      searchOffers(phrase,callback) {
         _async.waterfall([
           function(callback) {
             db.connectToDb(function(err,connection) {
@@ -146,10 +146,19 @@ export default class offers {
             });
           },
           function(connection,callback) {
-            _rethinkDB.table('offer').run(connection,function(err,cursor) {
-              connection.close();
+            console.log(phrase);
+            
+            //REMOVE SPECIAL CHARACTER (ENCODED SPACE VALUE)
+            var outString = phrase.replace(/[`%20`]/gi, ' '); 
+            console.log(outString);
+
+              _rethinkDB.table("offer").filter(
+                _rethinkDB.row("duration").match("(?i)"+outString).or(_rethinkDB.row("id").match("(?i)"+outString))
+                ).run(connection,function(err,cursor) {
+                    connection.close();
+
               if(err) {
-                return callback(true,"Error fetching offers to database");
+                return callback(true,err);
               }
               cursor.toArray(function(err, result) {
                 if(err) {

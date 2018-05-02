@@ -67,6 +67,13 @@ functions:
       - http:
           path: offers
           method: get
+  
+  searchOffers:
+    handler: handler.searchOffers
+    events:
+      - http:
+          path: offers/{phrase}
+          method: get
 
   createOffer:
     handler: handler.createOffer

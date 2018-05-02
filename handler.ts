@@ -37,6 +37,19 @@ const getOffers : Handler = (event:any, context: Context, callback: Callback) =>
 
 };
 
+//HANDLER FUNCTION TO SEARCH DATA FROM DATABASE 
+const searchOffers : Handler = (event:any, context: Context, callback: Callback) =>{
+
+  service.searchOffers(event.pathParameters.phrase,function(err,offerResponse) {
+    const res: response = {
+      statusCode: 200,
+      body: JSON.stringify(offerResponse)
+    };
+    callback(undefined,res);
+  });
+
+};
+
 //HANDLER FUNCTION TO POST DATA FROM DATABASE
 const createOffer : Handler = (event:any, context: Context, callback: Callback) =>{
 
@@ -80,4 +93,4 @@ const deleteOffer : Handler = (event:any, context: Context, callback: Callback) 
 
 };
 
-export { initialLaunch, getOffers, createOffer, updateOffer, deleteOffer }
+export { initialLaunch, getOffers, createOffer, updateOffer, deleteOffer, searchOffers }
